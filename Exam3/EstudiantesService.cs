@@ -84,8 +84,22 @@ namespace Exam3
 
         public async Task<bool> PonerMiCalificacion(EstudiantePutDto datos)
         {
-            //Hacer un PUT y pasar datos como json. 
-            return await Task.FromResult(false);
+            string baseurl = "http://ne2exam2v1.azurewebsites.net/api/Exam3/";
+			var Client = new HttpClient();
+			Client.MaxResponseContentBufferSize = 256000;
+
+			var uril = new Uri(baseurl);
+			var json = JsonConvert.SerializeObject(datos);
+			StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
+			var response = await Client.PutAsync(uril, content);
+			if (response.IsSuccessStatusCode)
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
         }
 
         public async Task<bool> IrPorEl100(EstudianteDeleteDto datos)
